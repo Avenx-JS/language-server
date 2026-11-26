@@ -1,0 +1,18 @@
+# node & npm
+node_modules/
+.npmrc
+dist/
+*.tgz
+.env
+.env.*
+!.env.example
+
+# test output
+coverage/
+
+# VS Code extension packages
+*.vsix
+
+# editors
+.vscode/
+.idea/

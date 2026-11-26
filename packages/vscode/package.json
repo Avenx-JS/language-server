@@ -1,0 +1,15 @@
+{
+  "name": "avenx-vscode",
+  "private": true,
+  "version": "0.0.0",
+  "description": "VS Code client for the Avenx language server.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Avenx-JS/language-server.git",
+    "directory": "packages/vscode"
+  },
+  "dependencies": {
+    "avenx-language-server": "0.0.0"
+  }
+}
