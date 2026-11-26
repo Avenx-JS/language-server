@@ -1,6 +1,8 @@
 import { basename } from 'node:path';
 import { SetTraceNotification } from 'vscode-languageserver/node';
 import { buildCapabilities, validateFeatures } from './capabilities.js';
+import { negotiatePositionEncoding } from './documents/positions.js';
+import { DocumentStore } from './documents/store.js';
 import { features as defaultFeatures } from './features/index.js';
 import { guardNotification, guardRequest } from './guard.js';
 import { createLogger, formatError, LOG_LEVELS } from './logger.js';
@@ -36,10 +38,14 @@ export function createServer(connection, { features = defaultFeatures } = {}) {
         const initializationOptions = isObject(params.initializationOptions) ? params.initializationOptions : {};
         applyLogLevel(logger, initializationOptions.logLevel);
 
+        const clientCapabilities = params.capabilities ?? {};
+        const positionEncoding = negotiatePositionEncoding(clientCapabilities);
         const context = {
           connection,
           logger,
-          clientCapabilities: params.capabilities ?? {},
+          clientCapabilities,
+          positionEncoding,
+          documents: new DocumentStore({ encoding: positionEncoding, logger }),
           initializationOptions,
           workspaceFolders: resolveWorkspaceFolders(params),
           onRequest: (type, handler) => connection.onRequest(type, guardRequest(type, handler, { logger, isShutdown })),
@@ -49,6 +55,10 @@ export function createServer(connection, { features = defaultFeatures } = {}) {
         state.context = context;
 
         const capabilities = buildCapabilities(features, context);
+        // Protocol negotiation, not a feature: answered whenever the client asked.
+        if (clientCapabilities.general?.positionEncodings) {
+          capabilities.positionEncoding = positionEncoding;
+        }
         for (const feature of features) {
           feature.register?.(context);
         }

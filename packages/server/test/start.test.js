@@ -6,7 +6,18 @@ import { fakeProcess } from './helpers/lsp.js';
 describe('public API', () => {
   it('exports the entry points', () => {
     expect(Object.keys(api).sort()).toEqual(
-      ['SERVER_NAME', 'createServer', 'features', 'parseArgs', 'run', 'startServer', 'version'].sort(),
+      [
+        'AvenxDocument',
+        'DocumentStore',
+        'SERVER_NAME',
+        'createServer',
+        'detectFileKind',
+        'features',
+        'parseArgs',
+        'run',
+        'startServer',
+        'version',
+      ].sort(),
     );
   });
 });

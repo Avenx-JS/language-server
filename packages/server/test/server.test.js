@@ -40,12 +40,17 @@ const throwingFeature = {
 
 describe('initialize', () => {
   it('advertises no capabilities while no feature is registered', async () => {
-    expect(registeredFeatures).toEqual([]);
-    const { initialize } = start();
+    const { initialize } = start({ features: [] });
     const result = await initialize();
 
     // vscode-languageserver always adds textDocumentSync, as "None".
     expect(result).toEqual({ capabilities: { textDocumentSync: 0 }, serverInfo: { name: SERVER_NAME, version } });
+  });
+
+  it('registers the document sync feature by default', async () => {
+    expect(registeredFeatures.map((f) => f.name)).toEqual(['documents']);
+    const { capabilities } = await start().initialize();
+    expect(capabilities).toEqual({ textDocumentSync: { openClose: true, change: 2 } });
   });
 
   it('builds the capabilities from the registered features', async () => {
@@ -120,7 +125,7 @@ describe('initialize', () => {
     await waitFor(() => logs.length);
     expect(logs[0]).toEqual({
       type: MessageType.Info,
-      message: `${SERVER_NAME} ${version} initialized with 0 feature(s) and 0 workspace folder(s).`,
+      message: `${SERVER_NAME} ${version} initialized with 1 feature(s) and 0 workspace folder(s).`,
     });
   });
 

@@ -1,3 +1,5 @@
+import { documentsFeature } from './documents.js';
+
 /**
  * The central feature registry.
  *
@@ -27,6 +29,10 @@
  * @property {import('../logger.js').Logger} logger The server logger.
  * @property {import('vscode-languageserver/node').ClientCapabilities} clientCapabilities
  *   What the client supports, from `initialize`.
+ * @property {'utf-16' | 'utf-8'} positionEncoding
+ *   The negotiated position encoding; every position sent or received uses it.
+ * @property {import('../documents/store.js').DocumentStore} documents
+ *   Open documents, with a fallback to the file on disk.
  * @property {Record<string, unknown>} initializationOptions
  *   The client's `initializationOptions`, always an object.
  * @property {import('vscode-languageserver/node').WorkspaceFolder[]} workspaceFolders
@@ -50,4 +56,4 @@
  */
 
 /** @type {ReadonlyArray<Feature>} */
-export const features = Object.freeze([]);
+export const features = Object.freeze([documentsFeature]);
