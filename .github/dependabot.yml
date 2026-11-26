@@ -1,0 +1,42 @@
+# Dependabot: keeps development tooling and workflow actions up to date.
+# Runs once a month and only looks at devDependencies, so the published
+# version ranges stay under manual control (same policy as avenx-js).
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: monthly
+    allow:
+      - dependency-type: development
+    versioning-strategy: increase
+    # One PR per month for minor/patch bumps; majors get their own PR.
+    groups:
+      dev-dependencies:
+        applies-to: version-updates
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+    # vitest 4+ and @vitest/coverage-v8 4+ drop Node 18, which we still support (NFR-4).
+    ignore:
+      - dependency-name: vitest
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@vitest/coverage-v8'
+        update-types: ['version-update:semver-major']
+    commit-message:
+      prefix: chore
+      include: scope
+
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns: ['*']
+        update-types: ['minor', 'patch']
+    commit-message:
+      prefix: chore
+      include: scope

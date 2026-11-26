@@ -1,0 +1,39 @@
+{
+  "name": "avenx-language-server",
+  "version": "0.0.0",
+  "description": "Language Server Protocol implementation for Avenx-JS projects.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "avenx-language-server": "bin/avenx-language-server.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "avenx",
+    "language-server",
+    "lsp",
+    "editor"
+  ],
+  "author": "Avenx Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Avenx-JS/language-server.git",
+    "directory": "packages/server"
+  },
+  "bugs": {
+    "url": "https://github.com/Avenx-JS/language-server/issues"
+  }
+}

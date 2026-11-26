@@ -1,0 +1,38 @@
+{
+  "name": "avenx-language-server-monorepo",
+  "private": true,
+  "description": "Language Server Protocol support for Avenx-JS projects.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "workspaces": [
+    "packages/server",
+    "packages/vscode"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "author": "Avenx Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Avenx-JS/language-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Avenx-JS/language-server/issues"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^10.5.0",
+    "eslint-plugin-jsdoc": "^63.0.7",
+    "prettier": "^3.8.4",
+    "vitest": "^3.2.4"
+  }
+}
