@@ -6,3 +6,4 @@ export { features } from './features/index.js';
 export { AvenxDocument } from './documents/document.js';
 export { DocumentStore } from './documents/store.js';
 export { detectFileKind } from './documents/fileKind.js';
+export { ProjectModel } from './project/model.js';

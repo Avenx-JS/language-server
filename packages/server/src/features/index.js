@@ -1,4 +1,5 @@
 import { documentsFeature } from './documents.js';
+import { projectsFeature } from './projects.js';
 
 /**
  * The central feature registry.
@@ -33,6 +34,8 @@ import { documentsFeature } from './documents.js';
  *   The negotiated position encoding; every position sent or received uses it.
  * @property {import('../documents/store.js').DocumentStore} documents
  *   Open documents, with a fallback to the file on disk.
+ * @property {import('../project/model.js').ProjectModel} projects
+ *   The Avenx projects of the workspace and their component registries.
  * @property {Record<string, unknown>} initializationOptions
  *   The client's `initializationOptions`, always an object.
  * @property {import('vscode-languageserver/node').WorkspaceFolder[]} workspaceFolders
@@ -56,4 +59,4 @@ import { documentsFeature } from './documents.js';
  */
 
 /** @type {ReadonlyArray<Feature>} */
-export const features = Object.freeze([documentsFeature]);
+export const features = Object.freeze([documentsFeature, projectsFeature]);

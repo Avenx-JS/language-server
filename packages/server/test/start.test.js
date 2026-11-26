@@ -9,6 +9,7 @@ describe('public API', () => {
       [
         'AvenxDocument',
         'DocumentStore',
+        'ProjectModel',
         'SERVER_NAME',
         'createServer',
         'detectFileKind',

@@ -3,3 +3,5 @@ coverage/
 dist/
 *.vsix
 package-lock.json
+# Copied verbatim from avenx-js; keep byte-identical (see src/avenx/core.js).
+packages/server/src/avenx/avenx.config.schema.json

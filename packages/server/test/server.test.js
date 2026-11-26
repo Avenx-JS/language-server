@@ -47,10 +47,13 @@ describe('initialize', () => {
     expect(result).toEqual({ capabilities: { textDocumentSync: 0 }, serverInfo: { name: SERVER_NAME, version } });
   });
 
-  it('registers the document sync feature by default', async () => {
-    expect(registeredFeatures.map((f) => f.name)).toEqual(['documents']);
+  it('registers document sync and the project model by default', async () => {
+    expect(registeredFeatures.map((f) => f.name)).toEqual(['documents', 'projects']);
     const { capabilities } = await start().initialize();
-    expect(capabilities).toEqual({ textDocumentSync: { openClose: true, change: 2 } });
+    expect(capabilities).toEqual({
+      textDocumentSync: { openClose: true, change: 2 },
+      workspace: { workspaceFolders: { supported: true, changeNotifications: true } },
+    });
   });
 
   it('builds the capabilities from the registered features', async () => {
@@ -120,12 +123,12 @@ describe('initialize', () => {
   });
 
   it('logs the start', async () => {
-    const { initialize, logs } = start();
+    const { initialize, logs } = start({ features: [] });
     await initialize({ workspaceFolders: [] });
     await waitFor(() => logs.length);
     expect(logs[0]).toEqual({
       type: MessageType.Info,
-      message: `${SERVER_NAME} ${version} initialized with 1 feature(s) and 0 workspace folder(s).`,
+      message: `${SERVER_NAME} ${version} initialized with 0 feature(s) and 0 workspace folder(s).`,
     });
   });
 
@@ -231,7 +234,7 @@ describe('logging', () => {
   });
 
   it('warns about an unknown log level and keeps the default', async () => {
-    const { initialize, logs, server } = start();
+    const { initialize, logs, server } = start({ features: [] });
     await initialize({ initializationOptions: { logLevel: 'loud' } });
     await waitFor(() => logs.length === 2);
     expect(logs[0]).toEqual({
@@ -243,7 +246,7 @@ describe('logging', () => {
 
   it('routes console output to the client log on stdio', async () => {
     const fakeConsole = {};
-    const { initialize, logs } = start({ console: fakeConsole });
+    const { initialize, logs } = start({ console: fakeConsole, features: [] });
     await initialize({ initializationOptions: { logLevel: 'debug' } });
     await waitFor(() => logs.length === 1);
     fakeConsole.log('a %d', 1);
